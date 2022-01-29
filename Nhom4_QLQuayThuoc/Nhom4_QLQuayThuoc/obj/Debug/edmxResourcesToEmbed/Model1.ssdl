@@ -1,0 +1,238 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QuayThuocModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="CHITIETPHIEUBAN">
+    <Key>
+      <PropertyRef Name="IDDongBan" />
+    </Key>
+    <Property Name="IDDongBan" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="MaNCC" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="LoaiThuocBan" Type="nvarchar" MaxLength="30" Nullable="false" />
+    <Property Name="TongBan" Type="int" Nullable="false" />
+    <Property Name="DonGiaBan" Type="money" Nullable="false" />
+    <Property Name="TongTien" Type="money" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CHITIETPHIEUMUA">
+    <Key>
+      <PropertyRef Name="IDDongMua" />
+    </Key>
+    <Property Name="IDDongMua" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="MaKH" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="LoaiThuocMua" Type="nchar" MaxLength="30" Nullable="false" />
+    <Property Name="TongMua" Type="int" Nullable="false" />
+    <Property Name="DonGiaMua" Type="money" Nullable="false" />
+    <Property Name="ThanhTien" Type="money" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DANGNHAP">
+    <Key>
+      <PropertyRef Name="IDName" />
+    </Key>
+    <Property Name="IDName" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="Ten" Type="nchar" MaxLength="30" Nullable="false" />
+    <Property Name="MatKhau" Type="nchar" MaxLength="30" Nullable="false" />
+  </EntityType>
+  <EntityType Name="KHACHHANG">
+    <Key>
+      <PropertyRef Name="MaKH" />
+    </Key>
+    <Property Name="MaKH" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="TenKH" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="NgaySinh" Type="datetime" Nullable="false" />
+    <Property Name="DiaChi" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="SoDT" Type="char" MaxLength="10" Nullable="false" />
+    <Property Name="BenhAn" Type="nvarchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="NHACUNGCAP">
+    <Key>
+      <PropertyRef Name="MaNCC" />
+    </Key>
+    <Property Name="MaNCC" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="TenNCC" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="SoDienThoai" Type="char" MaxLength="10" Nullable="false" />
+    <Property Name="DiaChi" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PHIEUBAN">
+    <Key>
+      <PropertyRef Name="MaPhieuBan" />
+    </Key>
+    <Property Name="MaPhieuBan" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="MaThuoc" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="MaNCC" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="SoLuongBan" Type="int" Nullable="false" />
+    <Property Name="GiaTien" Type="money" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PHIEUMUA">
+    <Key>
+      <PropertyRef Name="MaPhieuMua" />
+    </Key>
+    <Property Name="MaPhieuMua" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="MaThuoc" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="MaKH" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="SoLuongMua" Type="int" Nullable="false" />
+    <Property Name="DonGia" Type="money" Nullable="false" />
+  </EntityType>
+  <EntityType Name="THUOC">
+    <Key>
+      <PropertyRef Name="MaThuoc" />
+    </Key>
+    <Property Name="MaThuoc" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="MaNCC" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="TenThuoc" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="NamSanXuat" Type="datetime" Nullable="false" />
+    <Property Name="HanSuDung" Type="datetime" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_DONGPHIEUBAN_NHACUNGCAP">
+    <End Role="NHACUNGCAP" Type="Self.NHACUNGCAP" Multiplicity="1" />
+    <End Role="CHITIETPHIEUBAN" Type="Self.CHITIETPHIEUBAN" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NHACUNGCAP">
+        <PropertyRef Name="MaNCC" />
+      </Principal>
+      <Dependent Role="CHITIETPHIEUBAN">
+        <PropertyRef Name="MaNCC" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DONGPHIEUMUA_KHACHHANG">
+    <End Role="KHACHHANG" Type="Self.KHACHHANG" Multiplicity="1" />
+    <End Role="CHITIETPHIEUMUA" Type="Self.CHITIETPHIEUMUA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="KHACHHANG">
+        <PropertyRef Name="MaKH" />
+      </Principal>
+      <Dependent Role="CHITIETPHIEUMUA">
+        <PropertyRef Name="MaKH" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PHIEUBAN_NHACUNGCAP">
+    <End Role="NHACUNGCAP" Type="Self.NHACUNGCAP" Multiplicity="1" />
+    <End Role="PHIEUBAN" Type="Self.PHIEUBAN" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NHACUNGCAP">
+        <PropertyRef Name="MaNCC" />
+      </Principal>
+      <Dependent Role="PHIEUBAN">
+        <PropertyRef Name="MaNCC" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PHIEUBAN_THUOC">
+    <End Role="THUOC" Type="Self.THUOC" Multiplicity="1" />
+    <End Role="PHIEUBAN" Type="Self.PHIEUBAN" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="THUOC">
+        <PropertyRef Name="MaThuoc" />
+      </Principal>
+      <Dependent Role="PHIEUBAN">
+        <PropertyRef Name="MaThuoc" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PHIEUMUA_KHACHHANG">
+    <End Role="KHACHHANG" Type="Self.KHACHHANG" Multiplicity="1" />
+    <End Role="PHIEUMUA" Type="Self.PHIEUMUA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="KHACHHANG">
+        <PropertyRef Name="MaKH" />
+      </Principal>
+      <Dependent Role="PHIEUMUA">
+        <PropertyRef Name="MaKH" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PHIEUMUA_THUOC">
+    <End Role="THUOC" Type="Self.THUOC" Multiplicity="1" />
+    <End Role="PHIEUMUA" Type="Self.PHIEUMUA" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="THUOC">
+        <PropertyRef Name="MaThuoc" />
+      </Principal>
+      <Dependent Role="PHIEUMUA">
+        <PropertyRef Name="MaThuoc" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_THUOC_NHACUNGCAP">
+    <End Role="NHACUNGCAP" Type="Self.NHACUNGCAP" Multiplicity="1" />
+    <End Role="THUOC" Type="Self.THUOC" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NHACUNGCAP">
+        <PropertyRef Name="MaNCC" />
+      </Principal>
+      <Dependent Role="THUOC">
+        <PropertyRef Name="MaNCC" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_NhapHang" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_TopMuaHang" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="QuayThuocModelStoreContainer">
+    <EntitySet Name="CHITIETPHIEUBAN" EntityType="Self.CHITIETPHIEUBAN" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CHITIETPHIEUMUA" EntityType="Self.CHITIETPHIEUMUA" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DANGNHAP" EntityType="Self.DANGNHAP" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="KHACHHANG" EntityType="Self.KHACHHANG" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NHACUNGCAP" EntityType="Self.NHACUNGCAP" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PHIEUBAN" EntityType="Self.PHIEUBAN" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PHIEUMUA" EntityType="Self.PHIEUMUA" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="THUOC" EntityType="Self.THUOC" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_DONGPHIEUBAN_NHACUNGCAP" Association="Self.FK_DONGPHIEUBAN_NHACUNGCAP">
+      <End Role="NHACUNGCAP" EntitySet="NHACUNGCAP" />
+      <End Role="CHITIETPHIEUBAN" EntitySet="CHITIETPHIEUBAN" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DONGPHIEUMUA_KHACHHANG" Association="Self.FK_DONGPHIEUMUA_KHACHHANG">
+      <End Role="KHACHHANG" EntitySet="KHACHHANG" />
+      <End Role="CHITIETPHIEUMUA" EntitySet="CHITIETPHIEUMUA" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PHIEUBAN_NHACUNGCAP" Association="Self.FK_PHIEUBAN_NHACUNGCAP">
+      <End Role="NHACUNGCAP" EntitySet="NHACUNGCAP" />
+      <End Role="PHIEUBAN" EntitySet="PHIEUBAN" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PHIEUBAN_THUOC" Association="Self.FK_PHIEUBAN_THUOC">
+      <End Role="THUOC" EntitySet="THUOC" />
+      <End Role="PHIEUBAN" EntitySet="PHIEUBAN" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PHIEUMUA_KHACHHANG" Association="Self.FK_PHIEUMUA_KHACHHANG">
+      <End Role="KHACHHANG" EntitySet="KHACHHANG" />
+      <End Role="PHIEUMUA" EntitySet="PHIEUMUA" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PHIEUMUA_THUOC" Association="Self.FK_PHIEUMUA_THUOC">
+      <End Role="THUOC" EntitySet="THUOC" />
+      <End Role="PHIEUMUA" EntitySet="PHIEUMUA" />
+    </AssociationSet>
+    <AssociationSet Name="FK_THUOC_NHACUNGCAP" Association="Self.FK_THUOC_NHACUNGCAP">
+      <End Role="NHACUNGCAP" EntitySet="NHACUNGCAP" />
+      <End Role="THUOC" EntitySet="THUOC" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
